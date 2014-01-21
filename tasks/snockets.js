@@ -1,5 +1,5 @@
 var Snockets = require('snockets'),
-	fs = require('fs'),
+  fs = require('fs'),
   path = require('path');
 
 /*
@@ -13,10 +13,16 @@ var Snockets = require('snockets'),
 module.exports = function(grunt) {
   // Please see the grunt documentation for more information regarding task and
   // helper creation: https://github.com/gruntjs/grunt/blob/master/docs/toc.md
+  // my changes
 
   // ==========================================================================
   // TASKS
   // ==========================================================================
+
+  var guid = function(){
+    s4 = (-> Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1));
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+  }
 
   grunt.registerMultiTask('snockets', 'Building js files with snockets.js.', function() {
     this.snocketsOptions = {
@@ -53,6 +59,17 @@ module.exports = function(grunt) {
       grunt.log.error('Missing File: ' + this.data.src);
       return false;
     }
+  });
+
+  grunt.registerMultiTask('dynamic-snockets', function(){
+    var tasks = this.files.map(function(pair){
+      var task_config = { src: pair.src[0], dest: pair.dest },
+          task_name   = 'snockets.compile-' + guid();
+      grunt.config.set(task_name, task_config);
+      return task_name;
+    })
+
+    tasks.forEach(function(task){ grunt.task.run(task.replace(/\./gi, ':')); });
   });
 
 };
