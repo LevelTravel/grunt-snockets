@@ -1,6 +1,7 @@
 var Snockets = require('snockets'),
-  fs = require('fs'),
-  path = require('path');
+    fs       = require('fs'),
+    path     = require('path'),
+    mkdirp   = require('mkdirp');
 
 /*
  * grunt-snockets
@@ -46,7 +47,9 @@ module.exports = function(grunt) {
         if (this.data.banner)
           js = this.data.banner + '\n' + js;
 
-        fs.writeFileSync(path.resolve(this.data.dest), js);
+        var destination = path.resolve(this.data.dest);
+        mkdirp.sync(path.basedir(destination));
+        fs.writeFileSync(destination, js);
 
         grunt.log.writeln('Compiled ' + this.data.src + ' to ' + this.data.dest);
 
