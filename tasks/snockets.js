@@ -48,7 +48,7 @@ module.exports = function(grunt) {
           js = this.data.banner + '\n' + js;
 
         var destination = path.resolve(this.data.dest);
-        mkdirp.sync(path.basedir(destination));
+        mkdirp.sync(path.dirname(destination));
         fs.writeFileSync(destination, js);
 
         grunt.log.writeln('Compiled ' + this.data.src + ' to ' + this.data.dest);
