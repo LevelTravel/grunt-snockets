@@ -30,7 +30,7 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "snockets": "",
+    "snockets": "git+ssh://git@github.com:nicholasrq/snockets.git",
     "mkdirp": "~0.3.5"
   },
   "devDependencies": {
